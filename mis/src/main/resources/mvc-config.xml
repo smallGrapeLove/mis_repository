@@ -17,8 +17,19 @@
 
     <!-- 对模型视图添加前后缀 -->
     <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"></property>
         <property name="suffix" value=".jsp"></property>
     </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- path配置</**>拦截所有请求，包括二级以上目录，</*>拦截所有请求，不包括二级以上目录 -->
+            <mvc:mapping path="/**"/>
+            <!-- 配置不拦截请求的地址 -->
+            <mvc:exclude-mapping path="/login/*"/>
+            <bean class="com.xuhuan.mis.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>
