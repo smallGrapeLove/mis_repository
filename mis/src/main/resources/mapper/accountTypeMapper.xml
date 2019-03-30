@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhuan.mis.dao.AccountTypeDao">
+    <resultMap id="BaseResultMap" type="com.xuhuan.mis.entity.AccountType">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.xuhuan.mis.entity.AccountType">
+        INSERT INTO mis_account_type (name, type)
+        VALUES (#{name}, #{type})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM mis_account_type
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.xuhuan.mis.entity.AccountType">
+        UPDATE mis_account_type
+        SET name = #{name}, type = #{type}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+        SELECT *
+        FROM mis_account_type
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByParam" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT t1.id,t1.name,t1.type,t3.enumName as typeName
+        FROM mis_account_type t1
+        left JOIN
+        (
+        select t2.value,t2.name enumName from mis_enum t2 where t2.catalog=#{enumCatalog} and t2.type=#{enumType}
+        ) t3 on t1.type=t3.value
+        <where>
+            <if test="name != null and name != ''">
+                and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByType" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT
+            id,
+            name
+        FROM mis_account_type
+        WHERE type = #{type}
+    </select>
+</mapper>

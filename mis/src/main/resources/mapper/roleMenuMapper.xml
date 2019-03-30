@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhuan.mis.dao.RoleMenuDao">
+    <resultMap id="BaseResultMap" type="com.xuhuan.mis.entity.RoleMenu">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="roleId" property="roleId" jdbcType="INTEGER"/>
+        <result column="menuId" property="menuId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.xuhuan.mis.entity.RoleMenu">
+        insert into mis_role_menu(roleId,menuId)
+        values(#{roleId},#{menuId})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from mis_role_menu where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="com.xuhuan.mis.entity.RoleMenu">
+        update mis_role_menu set roleId=#{roleId},menuId=#{menuId} where id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+		SELECT * FROM mis_role_menu WHERE id = #{id}
+	</select>
+
+</mapper>

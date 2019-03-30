@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhuan.mis.dao.EnumDao">
+    <resultMap id="BaseResultMap" type="com.xuhuan.mis.entity.Enum">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="catalog" property="catalog" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.xuhuan.mis.entity.Enum">
+        INSERT INTO mis_enum (catalog, type, name, value, remark, sort)
+        VALUES (#{catalog}, #{type}, #{name}, #{value}, #{remark}, #{sort})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM mis_enum
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.xuhuan.mis.entity.Enum">
+        UPDATE mis_enum
+        SET catalog = #{catalog}, type = #{type}, name = #{name}, value = #{value}, remark = #{remark}, sort = #{sort}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+        SELECT *
+        FROM mis_enum
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByParam" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT * FROM mis_enum
+        <where>
+            <if test="catalog != null and catalog != ''">
+                and catalog like concat('%',#{catalog},'%')
+            </if>
+            <if test="type != null and type != ''">
+                and type like concat('%',#{type},'%')
+            </if>
+            <if test="name !=null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByCatalogAndType" resultType="java.util.Map">
+        SELECT
+            name,
+            value
+        FROM mis_enum
+        WHERE catalog = #{0} AND type = #{1}
+    </select>
+
+</mapper>

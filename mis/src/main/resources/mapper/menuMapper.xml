@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhuan.mis.dao.MenuDao">
+    <resultMap id="BaseResultMap" type="com.xuhuan.mis.entity.Menu">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
+        <result column="parentId" property="parentId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.xuhuan.mis.entity.Menu">
+        INSERT INTO mis_menu (name, url, sort, parentId)
+        VALUES (#{name}, #{url}, #{sort}, #{parentId})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM mis_menu
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.xuhuan.mis.entity.Menu">
+        UPDATE mis_menu
+        SET name = #{name}, url = #{url}, sort = #{sort}, parentId = #{parentId}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+        SELECT *
+        FROM mis_menu
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByParam" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT t1.id,t1.name,t1.url,t1.sort,t1.parentId,t2.name as parentName
+        FROM mis_menu t1
+        left join mis_menu t2 on t1.parentId = t2.id
+        <where>
+            <if test="name != null and name != ''">
+                and t1.name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="parentId !=null and parentId != ''">
+                and t1.parentId=${parentId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByParentId" parameterType="int" resultType="java.util.Map">
+        SELECT *
+        FROM mis_menu
+        WHERE
+        <choose>
+            <when test="_parameter != null">
+                parentId = #{_parameter}
+            </when>
+            <otherwise>
+                parentId is null
+            </otherwise>
+        </choose>
+
+    </select>
+
+</mapper>

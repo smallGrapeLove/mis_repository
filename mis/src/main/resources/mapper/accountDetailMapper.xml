@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuhuan.mis.dao.AccountDetailDao">
+    <resultMap id="BaseResultMap" type="com.xuhuan.mis.entity.AccountDetail">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="applyId" property="applyId" jdbcType="INTEGER"/>
+        <result column="typeId" property="typeId" jdbcType="INTEGER"/>
+        <result column="price" property="price" jdbcType="DOUBLE"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.xuhuan.mis.entity.AccountDetail">
+        INSERT INTO mis_account_detail (applyId, typeId, price, remark)
+        VALUES (#{applyId}, #{typeId}, #{price}, #{remark})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM mis_account_detail
+        WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteByApplyId" parameterType="int">
+        DELETE FROM mis_account_detail
+        WHERE applyId = #{applyId}
+    </delete>
+
+    <update id="update" parameterType="com.xuhuan.mis.entity.AccountDetail">
+        UPDATE mis_account_detail
+        SET applyId = #{applyId}, typeId = #{typeId}, price = #{price}, remark = #{remark}
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="int" resultMap="BaseResultMap">
+        SELECT *
+        FROM mis_account_detail
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectByApplyId" parameterType="int" resultType="java.util.Map">
+        SELECT
+            t1.typeId,
+            t1.price,
+            t1.remark,
+            t2.type
+        FROM mis_account_detail t1
+            LEFT JOIN mis_account_type t2 ON t1.typeId = t2.id
+        WHERE applyId = #{applyId}
+    </select>
+
+
+</mapper>
