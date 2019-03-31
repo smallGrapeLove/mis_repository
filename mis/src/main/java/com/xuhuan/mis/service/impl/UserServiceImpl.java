@@ -104,4 +104,17 @@ public class UserServiceImpl implements IUserService {
             }
         }
     }
+
+    /**
+     * 根据登录名查找用户
+     *
+     * @param userName
+     * @return
+     */
+    @Override
+    public User getUserByUserName(String userName) {
+        return userDao.selectByUserName(userName);
+    }
+
+
 }

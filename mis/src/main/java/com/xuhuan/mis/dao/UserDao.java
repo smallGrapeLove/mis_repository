@@ -50,4 +50,11 @@ public interface UserDao {
      * @return
      */
     List<Map> selectByParam(Map searchMap);
+
+    /**
+     * 根据登陆名称查询
+     * @param userName
+     * @return
+     */
+    User selectByUserName(String userName);
 }

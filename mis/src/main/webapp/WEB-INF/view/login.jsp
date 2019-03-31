@@ -12,13 +12,32 @@
     <link href="../../css/style.css" rel="stylesheet" type="text/css"/>
     <script language="JavaScript" src="../../js/jquery-1.8.0.min.js"></script>
     <script src="../../js/cloud.js" type="text/javascript"></script>
-    <script language="javascript">
+    <script type="text/javascript">
         $(function () {
             $('.loginbox').css({'position': 'absolute', 'left': ($(window).width() - 692) / 2});
             $(window).resize(function () {
                 $('.loginbox').css({'position': 'absolute', 'left': ($(window).width() - 692) / 2});
             })
         });
+
+        function submitForm() {
+            var userName = $("#userName").val();
+            var password = $("#password").val();
+            var errorMsg = '';
+            if (userName == '') {
+                errorMsg = '用户名不能为空';
+            }
+            if (errorMsg == '') {
+                if (password == '') {
+                    errorMsg = '密码不能为空';
+                }
+            }
+            if (errorMsg != '') {
+                $("#errorMsg").text(errorMsg);
+            } else {
+                $("#loginForm").submit();
+            }
+        }
     </script>
 </head>
 
@@ -42,16 +61,30 @@
 
 <div class="loginbody">
     <span class="systemlogo"></span>
-    <div class="loginbox">
-        <ul>
-            <li><input name="userName" id="userName" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''"/></li>
-            <li><input name="password" id="password" type="text" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
-            <li><input name="" type="button" class="loginbtn" value="登录"
-                       onclick="javascript:window.location='${pageContext.request.contextPath}/login/logOn'"/><label><input name="" type="checkbox" value=""
-                                                                                       checked="checked"/>记住密码</label><label><a
-                    href="#">忘记密码？</a></label></li>
-        </ul>
-    </div>
+    <form id="loginForm" action="${pageContext.request.contextPath}/login/logOn" method="post">
+        <div class="loginbox">
+            <ul>
+
+                <li>
+                    <input name="userName" id="userName" type="text" class="loginuser" value="${userName}"/>
+                </li>
+                <li>
+                    <input name="password" id="password" type="password" class="loginpwd" value="${password}"/>
+                </li>
+                <li style="height: 5px;">
+                    <label id="errorMsg" style="color: red;">${errorMsg}</label>
+                </li>
+                <li>
+                    <input name="" type="button" class="loginbtn" value="登陆" onclick="submitForm()"/>
+                    <label>
+                        <input name="" type="checkbox" value="" checked="checked"/>记住密码</label>
+                    <label>
+                        <a href="#">忘记密码？</a>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </form>
 </div>
 <div class="loginbm">版权所有huan.xu</div>
 </body>

@@ -46,4 +46,10 @@
         </where>
     </select>
 
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT *
+        FROM mis_user t1
+        where t1.userName=#{userName}
+    </select>
+
 </mapper>

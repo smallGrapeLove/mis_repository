@@ -44,10 +44,16 @@ public interface IUserService {
     void saveUser(User entity);
 
     /**
-     * 删除枚举
+     * 删除用户
      *
      * @param idsStr 逗号分个的id字符串
      */
     void deleteUser(String idsStr);
 
+    /**
+     * 根据登录名查找用户
+     * @param userName
+     * @return
+     */
+    User getUserByUserName(String userName);
 }
