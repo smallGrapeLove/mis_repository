@@ -30,6 +30,13 @@ public interface IMenuService {
     Menu getMenuById(int id);
 
     /**
+     * 根据上级菜单查询
+     * @param parentId
+     * @return
+     */
+    List<Map> getMenuByParentId(int parentId);
+
+    /**
      * 保存表单数据
      *
      * @param paramMap
@@ -56,4 +63,10 @@ public interface IMenuService {
      * @return
      */
     Map makeSelectOption(boolean showLastFlag);
+
+    /**
+     * 组装左侧导航栏数据
+     * @return
+     */
+    List<Map> makeLeftPageData();
 }

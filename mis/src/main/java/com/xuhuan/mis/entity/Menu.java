@@ -29,6 +29,11 @@ public class Menu {
      */
     private Integer parentId;
 
+    /**
+     * 样式图片
+     */
+    private String imgName;
+
     public Integer getId() {
         return id;
     }
@@ -70,6 +75,14 @@ public class Menu {
         this.parentId = parentId;
     }
 
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
     @Override
     public String toString() {
         return "Menu{" +
@@ -78,6 +91,7 @@ public class Menu {
                 ", url='" + url + '\'' +
                 ", sort='" + sort + '\'' +
                 ", parentId=" + parentId +
+                ", imgName='" + imgName + '\'' +
                 '}';
     }
 }

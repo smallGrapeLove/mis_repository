@@ -65,6 +65,10 @@
                 <input id="sort" name="sort" type="text" class="dfinput" value="${entity.sort}"/>
             </li>
             <li>
+                <label>图片样式</label>
+                <input id="imgName" name="imgName" type="text" class="dfinput" value="${entity.imgName}"/>
+            </li>
+            <li>
                 <label>&nbsp;</label>
                 <input id="saveBtn" type="button" class="btn" onclick="submitForm()" value="确认保存"/>
             </li>

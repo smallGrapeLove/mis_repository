@@ -8,9 +8,7 @@ import com.xuhuan.mis.util.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 菜单service实现类
@@ -47,6 +45,17 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     /**
+     * 根据上级菜单查询
+     *
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<Map> getMenuByParentId(int parentId) {
+        return menuDao.selectByParentId(parentId);
+    }
+
+    /**
      * 保存表单数据
      *
      * @param paramMap
@@ -57,6 +66,7 @@ public class MenuServiceImpl implements IMenuService {
         String name = StringUtil.safeToString(paramMap.get("name"), "");
         String url = StringUtil.safeToString(paramMap.get("url"), "");
         String sort = StringUtil.safeToString(paramMap.get("sort"), "");
+        String imgName = StringUtil.safeToString(paramMap.get("imgName"), "");
         int parentId = NumberTool.safeToInteger(paramMap.get("parentId"), 0);
 
         Menu menu;
@@ -68,6 +78,7 @@ public class MenuServiceImpl implements IMenuService {
         menu.setName(name);
         menu.setUrl(url);
         menu.setSort(sort);
+        menu.setImgName(imgName);
         menu.setParentId(parentId);
 
         this.saveMenu(menu);
@@ -141,5 +152,43 @@ public class MenuServiceImpl implements IMenuService {
             }
         }
         return resultMap;
+    }
+
+    /**
+     * 组装左侧导航栏数据
+     *
+     * @return
+     */
+    @Override
+    public List<Map> makeLeftPageData() {
+        List<Map> leftPageDataList = new ArrayList<>();
+        List<Map> topMenuList = this.getMenuByParentId(0);
+        if (topMenuList != null && topMenuList.size() > 0) {
+            for(Map topMenu:topMenuList){
+                int topMenuId = NumberTool.safeToInteger(topMenu.get("id"), 0);
+                List<Map> sMenuList = this.getMenuByParentId(topMenuId);
+                Map topMenuMap=new HashMap();
+                List<Map> childrenMenuList=new ArrayList<>();
+                if(sMenuList!=null&&sMenuList.size()>0){
+                    for (Map sMenu : sMenuList) {
+                        Map sChildrenMap=new HashMap();
+                        int id = NumberTool.safeToInteger(sMenu.get("id"), 0);
+                        List<Map> tMenuList = this.getMenuByParentId(id);
+
+                        sChildrenMap.put("sMenu",sMenu);
+                        sChildrenMap.put("tChildrenMapList",tMenuList);
+
+                        childrenMenuList.add(sChildrenMap);
+                    }
+                }
+
+                topMenuMap.put("tMenu",topMenu);
+                topMenuMap.put("sChildrenMapList",childrenMenuList);
+
+
+                leftPageDataList.add(topMenuMap);
+            }
+        }
+        return leftPageDataList;
     }
 }

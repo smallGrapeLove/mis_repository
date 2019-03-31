@@ -1,6 +1,7 @@
 package com.xuhuan.mis.controller;
 
 import com.xuhuan.mis.entity.User;
+import com.xuhuan.mis.service.IMenuService;
 import com.xuhuan.mis.service.IUserService;
 import com.xuhuan.mis.util.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +30,8 @@ public class LoginController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IMenuService menuService;
 
     /**
      * 登录页面
@@ -35,11 +39,7 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    private String toLogin(@RequestParam Map<String, String> paramMap,HttpServletRequest request) {
-//        String errorMsg = StringUtil.safeToString(paramMap.get("errorMsg"), "");
-//        if(StringUtil.isNotBlank(errorMsg)){
-//            request.setAttribute("errorMsg",errorMsg);
-//        }
+    private String toLogin() {
         return "login";
     }
 
@@ -52,28 +52,28 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/logOn", method = RequestMethod.POST)
-    private String logOn(@RequestParam Map<String, String> paramMap, HttpSession session,RedirectAttributes attr) {
+    private String logOn(@RequestParam Map<String, String> paramMap, HttpSession session, RedirectAttributes attr) {
         String userName = StringUtil.safeToString(paramMap.get("userName"), "");
         String password = StringUtil.safeToString(paramMap.get("password"), "");
-        String errorMsg="";
+        String errorMsg = "";
         if (StringUtil.isNotBlank(userName)) {
-            User user=userService.getUserByUserName(userName);
-            if(user!=null){
+            User user = userService.getUserByUserName(userName);
+            if (user != null) {
                 String userPassword = StringUtil.safeToString(user.getPassword(), "");
-                if(userPassword.equals(password)){
-                    session.setAttribute("loginUser",user);
+                if (userPassword.equals(password)) {
+                    session.setAttribute("loginUser", user);
                     return "framework/main";
-                }else {
-                    errorMsg="密码错误";
+                } else {
+                    errorMsg = "密码错误";
                 }
-            }else {
-                errorMsg="用户不存在";
+            } else {
+                errorMsg = "用户不存在";
             }
-            attr.addFlashAttribute("userName",userName);
-            attr.addFlashAttribute("password",password);
+            attr.addFlashAttribute("userName", userName);
+            attr.addFlashAttribute("password", password);
         }
-        if(StringUtil.isNotBlank(errorMsg)){
-            attr.addFlashAttribute("errorMsg",errorMsg);
+        if (StringUtil.isNotBlank(errorMsg)) {
+            attr.addFlashAttribute("errorMsg", errorMsg);
         }
         return "redirect:/login";
     }
@@ -93,12 +93,16 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/left", method = RequestMethod.GET)
-    private String toLeft() {
+    private String toLeft(HttpServletRequest request) {
+        List<Map> leftMenuData = menuService.makeLeftPageData();
+        request.setAttribute("leftMenuData",leftMenuData);
         return "framework/left";
     }
 
     @RequestMapping(value = "/top", method = RequestMethod.GET)
-    private String toTop() {
+    private String toTop(HttpServletRequest request) {
+        List<Map> topMenuList = menuService.getMenuByParentId(0);
+        request.setAttribute("topMenuList", topMenuList);
         return "framework/top";
     }
 
