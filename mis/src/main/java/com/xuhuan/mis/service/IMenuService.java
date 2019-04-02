@@ -31,6 +31,7 @@ public interface IMenuService {
 
     /**
      * 根据上级菜单查询
+     *
      * @param parentId
      * @return
      */
@@ -59,6 +60,7 @@ public interface IMenuService {
 
     /**
      * 组装下拉框选项
+     *
      * @param showLastFlag 是否显示第三级菜单
      * @return
      */
@@ -66,7 +68,25 @@ public interface IMenuService {
 
     /**
      * 组装左侧导航栏数据
+     *
      * @return
      */
     List<Map> makeLeftPageData();
+
+    /**
+     * 组装角色权限数据
+     * 角色菜单配置使用
+     *
+     * @param roleId
+     * @return
+     */
+    List<Map> makeRoleMenuData(int roleId);
+
+    /**
+     * 检查角色是否有此菜单权限
+     * @param roleId
+     * @param menuId
+     * @return
+     */
+    boolean checkRoleMenu(int roleId,int menuId);
 }

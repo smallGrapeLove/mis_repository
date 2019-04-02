@@ -15,7 +15,7 @@
 <body style="background:url(${pageContext.request.contextPath}/images/topbg.gif) repeat-x;">
 
 <div class="topleft">
-    <a href="main.html" target="_parent"><img src="${pageContext.request.contextPath}/images/logo.png"
+    <a  target="_parent"><img src="${pageContext.request.contextPath}/images/logo.png"
                                               title="系统首页"/></a>
 </div>
 
@@ -47,12 +47,6 @@
 </div>
 <script type="text/javascript">
 
-    $(function () {
-        //默认选中第一个
-        changeTopMenu($("#topNav").find("li").eq(0).find("a"));
-
-    });
-
     /**
      * 顶部菜单切换
      * @param menuId
@@ -65,13 +59,11 @@
         $.each(ddArrs, function (i, v) {
             var leftMenuId = $(v).attr("parentmenuid");
             if (topMenuId == leftMenuId) {
-                $(v).hide();
-            } else {
                 $(v).show();
+            } else {
+                $(v).hide();
             }
         });
-
-
     }
 </script>
 </body>

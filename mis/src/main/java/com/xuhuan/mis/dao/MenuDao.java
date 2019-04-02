@@ -1,6 +1,7 @@
 package com.xuhuan.mis.dao;
 
 import com.xuhuan.mis.entity.Menu;
+import com.xuhuan.mis.entity.RoleMenu;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -58,4 +59,5 @@ public interface MenuDao {
      * @return
      */
     List<Map> selectByParentId(Integer parentId);
+
 }

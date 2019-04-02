@@ -34,7 +34,7 @@
 </head>
 
 <body style="background:#f0f9fd;">
-<div class="lefttop"><span></span>通讯录</div>
+<div class="lefttop"><span></span></div>
 
 <dl class="leftmenu" id="leftMenu">
 
@@ -44,7 +44,7 @@
                 <div class="title">
                     <span><img src="${pageContext.request.contextPath}/images/${sMenu.sMenu.imgName}"/></span>${sMenu.sMenu.name}
                 </div>
-                <ul class="menuson">
+                <ul class="menuson" style="display: none;">
                     <c:forEach items="${sMenu.tChildrenMapList}" var="tMenu">
                         <li>
                             <cite></cite>
@@ -60,5 +60,12 @@
 
 
 </dl>
+
+<script type="text/javascript">
+    $(function () {
+        var fisDoc=$(window.parent.frames["topFrame"].document.getElementById("topNav")).find("li").eq(0).find("a");
+        window.parent.frames["topFrame"].changeTopMenu(fisDoc);
+    });
+</script>
 </body>
 </html>

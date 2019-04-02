@@ -1,7 +1,9 @@
 package com.xuhuan.mis.service.impl;
 
 import com.xuhuan.mis.dao.MenuDao;
+import com.xuhuan.mis.dao.RoleMenuDao;
 import com.xuhuan.mis.entity.Menu;
+import com.xuhuan.mis.entity.RoleMenu;
 import com.xuhuan.mis.service.IMenuService;
 import com.xuhuan.mis.util.common.NumberTool;
 import com.xuhuan.mis.util.common.StringUtil;
@@ -21,6 +23,8 @@ public class MenuServiceImpl implements IMenuService {
 
     @Autowired
     private MenuDao menuDao;
+    @Autowired
+    private RoleMenuDao roleMenuDao;
 
     /**
      * 列表查询
@@ -164,31 +168,95 @@ public class MenuServiceImpl implements IMenuService {
         List<Map> leftPageDataList = new ArrayList<>();
         List<Map> topMenuList = this.getMenuByParentId(0);
         if (topMenuList != null && topMenuList.size() > 0) {
-            for(Map topMenu:topMenuList){
+            for (Map topMenu : topMenuList) {
                 int topMenuId = NumberTool.safeToInteger(topMenu.get("id"), 0);
                 List<Map> sMenuList = this.getMenuByParentId(topMenuId);
-                Map topMenuMap=new HashMap();
-                List<Map> childrenMenuList=new ArrayList<>();
-                if(sMenuList!=null&&sMenuList.size()>0){
+                Map topMenuMap = new HashMap();
+                List<Map> childrenMenuList = new ArrayList<>();
+                if (sMenuList != null && sMenuList.size() > 0) {
                     for (Map sMenu : sMenuList) {
-                        Map sChildrenMap=new HashMap();
+                        Map sChildrenMap = new HashMap();
                         int id = NumberTool.safeToInteger(sMenu.get("id"), 0);
                         List<Map> tMenuList = this.getMenuByParentId(id);
 
-                        sChildrenMap.put("sMenu",sMenu);
-                        sChildrenMap.put("tChildrenMapList",tMenuList);
+                        sChildrenMap.put("sMenu", sMenu);
+                        sChildrenMap.put("tChildrenMapList", tMenuList);
 
                         childrenMenuList.add(sChildrenMap);
                     }
                 }
-
-                topMenuMap.put("tMenu",topMenu);
-                topMenuMap.put("sChildrenMapList",childrenMenuList);
-
+                topMenuMap.put("tMenu", topMenu);
+                topMenuMap.put("sChildrenMapList", childrenMenuList);
 
                 leftPageDataList.add(topMenuMap);
             }
         }
         return leftPageDataList;
+    }
+
+    /**
+     * 组装角色权限数据
+     * 角色菜单配置使用
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<Map> makeRoleMenuData(int roleId) {
+        List<Map> roleMenuDataList = new ArrayList<>();
+        List<Map> fMenuDataLIst = this.getMenuByParentId(0);
+        if (fMenuDataLIst != null && fMenuDataLIst.size() > 0) {
+            for (int f = 0; f < fMenuDataLIst.size(); f++) {
+                Map _fMenuMap = new HashMap();
+                Map fMenuMap = fMenuDataLIst.get(f);
+                int fId = NumberTool.safeToInteger(fMenuMap.get("id"), 0);
+                fMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, fId));
+                List<Map> sMenuDataList = this.getMenuByParentId(fId);
+                List<Map> _sMenuDataList=new ArrayList<>();
+                if (sMenuDataList != null && sMenuDataList.size() > 0) {
+                    for (int s = 0; s < sMenuDataList.size(); s++) {
+                        Map _sMenuMap=new HashMap();
+                        Map sMenuMap = sMenuDataList.get(s);
+                        int sId = NumberTool.safeToInteger(sMenuMap.get("id"), 0);
+                        sMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, sId));
+
+                        List<Map> tMenuDataList = this.getMenuByParentId(sId);
+                        if (tMenuDataList != null && tMenuDataList.size() > 0) {
+                            for (int t = 0; t < tMenuDataList.size(); t++) {
+                                Map tMenuMap = tMenuDataList.get(t);
+                                int tId = NumberTool.safeToInteger(tMenuMap.get("id"), 0);
+                                tMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, tId));
+                            }
+                        }
+                        _sMenuMap.put("sMenu",sMenuMap);
+                        _sMenuMap.put("sChildren",tMenuDataList);
+                        _sMenuDataList.add(_sMenuMap);
+                    }
+                }
+                _fMenuMap.put("fMenu", fMenuMap);
+                _fMenuMap.put("fChildren", _sMenuDataList);
+                roleMenuDataList.add(_fMenuMap);
+            }
+        }
+        return roleMenuDataList;
+    }
+
+    /**
+     * 检查角色是否有此菜单权限
+     *
+     * @param roleId
+     * @param menuId
+     * @return
+     */
+    @Override
+    public boolean checkRoleMenu(int roleId, int menuId) {
+        Map searchMap = new HashMap(2);
+        searchMap.put("roleId", roleId);
+        searchMap.put("menuId", menuId);
+        List<RoleMenu> roleMenus = roleMenuDao.selectByParam(searchMap);
+        if (roleMenus != null && roleMenus.size() > 0) {
+            return true;
+        }
+        return false;
     }
 }

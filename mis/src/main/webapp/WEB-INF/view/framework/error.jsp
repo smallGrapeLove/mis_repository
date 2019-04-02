@@ -38,7 +38,7 @@
 <div class="error">
 
     <h2>非常遗憾，您访问的页面不存在！</h2>
-    <div class="reindex"><a href="${pageContext.request.contextPath}/login/logOn" target="_parent">返回首页</a></div>
+    <div class="reindex"><a target="_parent"></a></div>
 
 </div>
 </body>
