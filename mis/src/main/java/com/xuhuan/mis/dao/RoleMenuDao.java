@@ -38,6 +38,12 @@ public interface RoleMenuDao {
     void delete(int id);
 
     /**
+     * 根据角色id删除角色菜单关系
+     * @param roleId
+     */
+    void deleteByRoleId(int roleId);
+
+    /**
      * 更新
      *
      * @param entity

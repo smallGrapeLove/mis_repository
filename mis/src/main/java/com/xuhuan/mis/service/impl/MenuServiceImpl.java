@@ -210,26 +210,26 @@ public class MenuServiceImpl implements IMenuService {
                 Map _fMenuMap = new HashMap();
                 Map fMenuMap = fMenuDataLIst.get(f);
                 int fId = NumberTool.safeToInteger(fMenuMap.get("id"), 0);
-                fMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, fId)+"");
+                fMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, fId) + "");
                 List<Map> sMenuDataList = this.getMenuByParentId(fId);
-                List<Map> _sMenuDataList=new ArrayList<>();
+                List<Map> _sMenuDataList = new ArrayList<>();
                 if (sMenuDataList != null && sMenuDataList.size() > 0) {
                     for (int s = 0; s < sMenuDataList.size(); s++) {
-                        Map _sMenuMap=new HashMap();
+                        Map _sMenuMap = new HashMap();
                         Map sMenuMap = sMenuDataList.get(s);
                         int sId = NumberTool.safeToInteger(sMenuMap.get("id"), 0);
-                        sMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, sId)+"");
+                        sMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, sId) + "");
 
                         List<Map> tMenuDataList = this.getMenuByParentId(sId);
                         if (tMenuDataList != null && tMenuDataList.size() > 0) {
                             for (int t = 0; t < tMenuDataList.size(); t++) {
                                 Map tMenuMap = tMenuDataList.get(t);
                                 int tId = NumberTool.safeToInteger(tMenuMap.get("id"), 0);
-                                tMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, tId)+"");
+                                tMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, tId) + "");
                             }
                         }
-                        _sMenuMap.put("sMenu",sMenuMap);
-                        _sMenuMap.put("sChildren",tMenuDataList);
+                        _sMenuMap.put("sMenu", sMenuMap);
+                        _sMenuMap.put("sChildren", tMenuDataList);
                         _sMenuDataList.add(_sMenuMap);
                     }
                 }
@@ -258,5 +258,47 @@ public class MenuServiceImpl implements IMenuService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void deleteRoleMenuByRoleId(int roleId) {
+        roleMenuDao.deleteByRoleId(roleId);
+    }
+
+    /**
+     * 保存角色菜单权限功能表单数据
+     *
+     * @param paramMap
+     */
+    @Override
+    public void saveRoleMenuFormData(Map<String, Object> paramMap) {
+        Set<Integer> menuIdSet = new HashSet<>();
+
+        int roleId = NumberTool.safeToInteger(paramMap.get("roleId"), 0);
+        if (roleId != 0) {
+            //先删除关系再保存关系
+            deleteRoleMenuByRoleId(roleId);
+
+            for (String key : paramMap.keySet()) {
+                if (StringUtil.isNotBlank(key)) {
+                    if (key.startsWith("checkBox_")) {
+                        String[] menuIds = key.split("_");
+                        for (int i = 1; i < menuIds.length; i++) {
+                            menuIdSet.add(NumberTool.safeToInteger(menuIds[i], 0));
+                        }
+                    }
+                }
+            }
+
+            if (menuIdSet != null && menuIdSet.size() > 0) {
+                for (int menuId : menuIdSet) {
+                    RoleMenu roleMenu = new RoleMenu();
+                    roleMenu.setRoleId(roleId);
+                    roleMenu.setMenuId(menuId);
+                    roleMenuDao.save(roleMenu);
+
+                }
+            }
+        }
     }
 }

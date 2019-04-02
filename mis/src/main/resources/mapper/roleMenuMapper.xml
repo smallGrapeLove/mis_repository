@@ -17,6 +17,10 @@
         delete from mis_role_menu where id=#{id}
     </delete>
 
+    <delete id="deleteByRoleId" parameterType="int">
+        delete from mis_role_menu where roleId=#{roleId}
+    </delete>
+
     <update id="update" parameterType="com.xuhuan.mis.entity.RoleMenu">
         update mis_role_menu set roleId=#{roleId},menuId=#{menuId} where id = #{id}
     </update>

@@ -13,7 +13,17 @@
     <script type="text/javascript">
 
         function submitForm() {
-            $("#editForm").submit();
+            var roleId = $("#roleId").val();
+            var message = "";
+            if (roleId == undefined || roleId == "") {
+                message = "请选择角色";
+            }
+            if (message != "") {
+                alert(message);
+            } else {
+                $("#editForm").submit();
+            }
+
         }
 
         /**
@@ -138,7 +148,6 @@
 <div class="formbody">
 
     <form id="editForm" action="${pageContext.request.contextPath}/menu/menu-role/save" method="post">
-        <input type="hidden" id="id" name="id" value="${id}">
         <div class="formtitle"><span>角色信息</span></div>
         <ul class="forminfo">
             <li>
@@ -188,9 +197,15 @@
                     {@/if}
                     {@each sMenu.sChildren as tMenu}
                         {@if tMenu.hasPrivilege==='true'}
-                            &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}" parentId="{{tMenu.parentId}}" onclick="checkThire(this)" checked/>{{tMenu.name}}
+                            &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"
+                                                                        id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}"
+                                                                        name="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}"
+                                                                        parentId="{{tMenu.parentId}}" onclick="checkThire(this)" checked/>{{tMenu.name}}
                         {@else}
-                            &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}" parentId="{{tMenu.parentId}}" onclick="checkThire(this)" />{{tMenu.name}}
+                            &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"
+                                                                        id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}"
+                                                                        name="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}"
+                                                                        parentId="{{tMenu.parentId}}" onclick="checkThire(this)" />{{tMenu.name}}
                         {@/if}
                     {@/each}
                      <br/>

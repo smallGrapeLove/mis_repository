@@ -65,6 +65,18 @@ public class MenuController {
     }
 
     /**
+     * 保存角色菜单数据
+     * @param paramMap
+     * @return
+     */
+    @RequestMapping(value = "/menu-role/save",method = RequestMethod.POST)
+    public String saveRoleMenu(@RequestParam Map<String, Object> paramMap){
+        menuService.saveRoleMenuFormData(paramMap);
+
+        return "redirect:/menu/menu-role";
+    }
+
+    /**
      * 获取角色菜单数据
      * @param request
      * @return

@@ -89,4 +89,12 @@ public interface IMenuService {
      * @return
      */
     boolean checkRoleMenu(int roleId,int menuId);
+
+    void deleteRoleMenuByRoleId(int roleId);
+
+    /**
+     * 保存角色菜单权限功能表单数据
+     * @param paramMap
+     */
+    void saveRoleMenuFormData(Map<String,Object> paramMap);
 }
