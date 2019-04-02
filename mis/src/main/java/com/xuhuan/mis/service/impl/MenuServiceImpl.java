@@ -210,7 +210,7 @@ public class MenuServiceImpl implements IMenuService {
                 Map _fMenuMap = new HashMap();
                 Map fMenuMap = fMenuDataLIst.get(f);
                 int fId = NumberTool.safeToInteger(fMenuMap.get("id"), 0);
-                fMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, fId));
+                fMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, fId)+"");
                 List<Map> sMenuDataList = this.getMenuByParentId(fId);
                 List<Map> _sMenuDataList=new ArrayList<>();
                 if (sMenuDataList != null && sMenuDataList.size() > 0) {
@@ -218,14 +218,14 @@ public class MenuServiceImpl implements IMenuService {
                         Map _sMenuMap=new HashMap();
                         Map sMenuMap = sMenuDataList.get(s);
                         int sId = NumberTool.safeToInteger(sMenuMap.get("id"), 0);
-                        sMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, sId));
+                        sMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, sId)+"");
 
                         List<Map> tMenuDataList = this.getMenuByParentId(sId);
                         if (tMenuDataList != null && tMenuDataList.size() > 0) {
                             for (int t = 0; t < tMenuDataList.size(); t++) {
                                 Map tMenuMap = tMenuDataList.get(t);
                                 int tId = NumberTool.safeToInteger(tMenuMap.get("id"), 0);
-                                tMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, tId));
+                                tMenuMap.put("hasPrivilege", this.checkRoleMenu(roleId, tId)+"");
                             }
                         }
                         _sMenuMap.put("sMenu",sMenuMap);

@@ -22,6 +22,7 @@
          */
         function changeRole(o) {
             var roleId=$(o).val();
+            $("#menuDataDiv").html('');
             if(roleId!=''){
                 var menuData=getMenuData(roleId);
                 //开始渲染数据，回显菜单
@@ -29,8 +30,6 @@
                     menuDataList:menuData
                 };
                 addMenuData(data);
-            }else {
-                $("#menuDataDiv").html('');
             }
         }
 
@@ -91,16 +90,21 @@
          * */
         function checkParent(o) {
             var parentId=$(o).attr("parentId");
-            var flag=true;
-            $.each($("input[parentId="+parentId+"]"),function (i, v) {
-                if(!$(v).is(':checked')){
-                    flag=false;
-                }
-            });
-            if(flag){
+            if(parentId!=undefined){
                 var parent=$("input[menuId="+parentId+"]");
-                $(parent).prop("checked","checked");
-                $(parent).trigger("onclick");
+                var flag=false;
+                $.each($("input[parentId="+parentId+"]"),function (i, v) {
+                    if($(v).is(':checked')){
+                        flag=true;
+                    }
+                });
+                if(flag){
+                    $(parent).prop("checked","checked");
+                    checkParent(parent);
+                }else{
+                    $(parent).removeAttr("checked");
+                    checkParent(parent);
+                }
             }
         }
 
@@ -169,17 +173,29 @@
 <script type="text/template" id="menuDataTemplate">
     <li>
         {@each menuDataList as fMenu}
-        <input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}" onclick="checkFirst(this)" menuId="{{fMenu.fMenu.id}}"/>{{fMenu.fMenu.name}}
-        <br/>
-        <br/>
-            {@each fMenu.fChildren as sMenu}
-                &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}" onclick="checkSecond(this)" parentId="{{sMenu.sMenu.parentId}}" menuId="{{sMenu.sMenu.id}}"/>{{sMenu.sMenu.name}}<br/><br/>
-                {@each sMenu.sChildren as tMenu}
-                        &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}" parentId="{{tMenu.parentId}}" onclick="checkThire(this)"/>{{tMenu.name}}
+            {@if fMenu.fMenu.hasPrivilege==='true'}
+                <input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}" onclick="checkFirst(this)" menuId="{{fMenu.fMenu.id}}" checked/>{{fMenu.fMenu.name}}
+            {@else}
+                <input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}" onclick="checkFirst(this)" menuId="{{fMenu.fMenu.id}}"/>{{fMenu.fMenu.name}}
+            {@/if}
+            <br/>
+            <br/>
+                {@each fMenu.fChildren as sMenu}
+                    {@if sMenu.sMenu.hasPrivilege==='true'}
+                            &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}" onclick="checkSecond(this)" parentId="{{sMenu.sMenu.parentId}}" menuId="{{sMenu.sMenu.id}}" checked/>{{sMenu.sMenu.name}}<br/><br/>
+                    {@else}
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}" onclick="checkSecond(this)" parentId="{{sMenu.sMenu.parentId}}" menuId="{{sMenu.sMenu.id}}" />{{sMenu.sMenu.name}}<br/><br/>
+                    {@/if}
+                    {@each sMenu.sChildren as tMenu}
+                        {@if tMenu.hasPrivilege==='true'}
+                            &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}" parentId="{{tMenu.parentId}}" onclick="checkThire(this)" checked/>{{tMenu.name}}
+                        {@else}
+                            &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="checkBox_{{fMenu.fMenu.id}}_{{sMenu.sMenu.id}}_{{tMenu.id}}" parentId="{{tMenu.parentId}}" onclick="checkThire(this)" />{{tMenu.name}}
+                        {@/if}
+                    {@/each}
+                     <br/>
+                     <br/>
                 {@/each}
-                <br/>
-                <br/>
-            {@/each}
         {@/each}
     </li>
 
