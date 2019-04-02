@@ -19,6 +19,6 @@ INSERT INTO `mis_menu` VALUES (6, '枚举管理', 'enum/list', '2', NULL, 3, NUL
 INSERT INTO `mis_menu` VALUES (7, '菜单管理', 'menu/list', '3', NULL, 3, NULL);
 INSERT INTO `mis_menu` VALUES (8, '用户管理', 'user/list', '1', NULL, 4, NULL);
 INSERT INTO `mis_menu` VALUES (9, '账务类型管理', 'account/type/list', '2', NULL, 4, NULL);
-INSERT INTO `mis_menu` VALUES (10, '角色菜单配置', '', '3', NULL, 4, NULL);
 INSERT INTO `mis_menu` VALUES (11, '账务维护', '', '1', NULL, 1, 'leftico03.png');
 INSERT INTO `mis_menu` VALUES (12, '账务记录', 'account/list', '1', NULL, 11, '');
+INSERT INTO `mis_menu` VALUES (13, '角色菜单权限配置', 'menu/menu-role', '3', NULL, 4, '');
