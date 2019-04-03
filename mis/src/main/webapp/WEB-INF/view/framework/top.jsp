@@ -15,8 +15,8 @@
 <body style="background:url(${pageContext.request.contextPath}/images/topbg.gif) repeat-x;">
 
 <div class="topleft">
-    <a  target="_parent"><img src="${pageContext.request.contextPath}/images/logo.png"
-                                              title="系统首页"/></a>
+    <a target="_parent"><img src="${pageContext.request.contextPath}/images/logo.png"
+                             title="系统首页"/></a>
 </div>
 
 <ul class="nav" id="topNav">
@@ -32,16 +32,19 @@
 
 <div class="topright">
     <ul>
-        <li><span><img src="${pageContext.request.contextPath}/images/help.png" title="帮助" class="helpimg"/></span><a
-                href="#">帮助</a></li>
-        <li><a href="#">关于</a></li>
+        <li>
+            <span>
+                <%--<img src="${pageContext.request.contextPath}/images/help.png" title="帮助" class="helpimg"/>--%>
+            </span>
+            <a></a></li>
+        <li><a></a></li>
         <li><a href="${pageContext.request.contextPath}/login/logOut" target="_parent">退出</a></li>
     </ul>
 
     <div class="user">
         <span>${loginUser.showName}</span>
-        <i>消息</i>
-        <b>5</b>
+        <%--<i>消息</i>--%>
+        <%--<b>5</b>--%>
     </div>
 
 </div>

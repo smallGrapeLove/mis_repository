@@ -16,7 +16,7 @@ public class User {
      */
     private String showName;
     /**
-     * 登陆名称
+     * 登录名称
      */
     private String userName;
     /**

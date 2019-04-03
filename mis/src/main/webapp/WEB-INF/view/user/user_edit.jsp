@@ -23,7 +23,7 @@
                 submitFlag = false;
             }
             if (userName == '') {
-                $("#b_userName").html('登陆名称不能为空');
+                $("#b_userName").html('登录名称不能为空');
                 submitFlag = false;
             }
             if (roleId == '') {

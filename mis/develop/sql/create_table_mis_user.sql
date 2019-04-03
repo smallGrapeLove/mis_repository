@@ -3,7 +3,7 @@ drop table IF EXISTS mis_user ;
 CREATE TABLE `mis_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `showName` varchar(100)  COMMENT '显示名称',
-  `userName` varchar(100)  COMMENT '登陆名称',
+  `userName` varchar(100)  COMMENT '登录名称',
   `password` varchar(100)  COMMENT '密码',
   `roleId` int(11)  COMMENT '角色',
   PRIMARY KEY (`id`)

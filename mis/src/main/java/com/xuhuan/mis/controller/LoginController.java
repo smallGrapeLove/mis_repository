@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 系统登陆controller
+ * 系统登录controller
  *
  * @author huan.xu
  * @Time 2019-2-27

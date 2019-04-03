@@ -16,7 +16,37 @@
         });
 
         function submitForm() {
-            $("#editForm").submit();
+            clearAllMes();
+            var name = $("#name").val();
+            var catalog = $("#catalog").val();
+            var type = $("#type").val();
+            var value = $("#value").val();
+            var sort = $("#sort").val();
+
+            var submitFlag = true;
+            if (name == '') {
+                $("#b_name").html('名称不能为空');
+                submitFlag = false;
+            }
+            if (catalog == '') {
+                $("#b_catalog").html('模块不能为空');
+                submitFlag = false;
+            }
+            if (type == '') {
+                $("#b_type").html('类型不能为空');
+                submitFlag = false;
+            }
+            if (value == '') {
+                $("#b_value").html('值不能为空');
+                submitFlag = false;
+            }
+            if (sort == '') {
+                $("#b_sort").html('排序不能为空');
+                submitFlag = false;
+            }
+            if (submitFlag) {
+                $("#editForm").submit();
+            }
         }
     </script>
 </head>
@@ -37,24 +67,29 @@
         <input type="hidden" id="id" name="id" value="${id}">
         <ul class="forminfo">
             <li>
-                <label>模块</label>
+                <label>模块<b>*</b></label>
                 <input id="catalog" name="catalog" type="text" class="dfinput" value="${entity.catalog}"/>
+                <b id="b_catalog"></b>
             </li>
             <li>
-                <label>类型</label>
+                <label>类型<b>*</b></label>
                 <input id="type" name="type" type="text" class="dfinput" value="${entity.type}"/>
+                <b id="b_type"></b>
             </li>
             <li>
-                <label>名称</label>
+                <label>名称<b>*</b></label>
                 <input id="name" name="name" type="text" class="dfinput" value="${entity.name}"/>
+                <b id="b_name"></b>
             </li>
             <li>
-                <label>值</label>
+                <label>值<b>*</b></label>
                 <input id="value" name="value" type="text" class="dfinput" value="${entity.value}"/>
+                <b id="b_value"></b>
             </li>
             <li>
-                <label>排序</label>
+                <label>排序<b>*</b></label>
                 <input id="sort" name="sort" type="text" class="dfinput" value="${entity.sort}"/>
+                <b id="b_sort"></b>
             </li>
             <li>
                 <label>描述</label>

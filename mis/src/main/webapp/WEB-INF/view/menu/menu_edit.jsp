@@ -13,7 +13,22 @@
     <script type="text/javascript">
 
         function submitForm() {
-            $("#editForm").submit();
+            clearAllMes();
+            var name=$("#name").val();
+            var sort=$("#sort").val();
+            var submitFlag = true;
+
+            if (name == '') {
+                $("#b_name").html('菜单名称不能为空');
+                submitFlag = false;
+            }
+            if (sort == '') {
+                $("#b_sort").html('排序不能为空');
+                submitFlag = false;
+            }
+            if (submitFlag) {
+                $("#editForm").submit();
+            }
         }
     </script>
 </head>
@@ -34,8 +49,9 @@
         <input type="hidden" id="id" name="id" value="${id}">
         <ul class="forminfo">
             <li>
-                <label>名称</label>
+                <label>名称<b>*</b></label>
                 <input id="name" name="name" type="text" class="dfinput" value="${entity.name}"/>
+                <b id="b_name"></b>
             </li>
             <li>
                 <label>url</label>
@@ -61,8 +77,9 @@
                 </div>
             </li>
             <li>
-                <label>排序</label>
+                <label>排序<b>*</b></label>
                 <input id="sort" name="sort" type="text" class="dfinput" value="${entity.sort}"/>
+                <b id="b_sort"></b>
             </li>
             <li>
                 <label>图片样式</label>

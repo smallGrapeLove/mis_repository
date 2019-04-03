@@ -75,12 +75,7 @@
                     <label id="errorMsg" style="color: red;">${errorMsg}</label>
                 </li>
                 <li>
-                    <input name="" type="button" class="loginbtn" value="登陆" onclick="submitForm()"/>
-                    <label>
-                        <input name="" type="checkbox" value="" checked="checked"/>记住密码</label>
-                    <label>
-                        <a href="#">忘记密码？</a>
-                    </label>
+                    <input name="" type="button" class="loginbtn" value="登录" onclick="submitForm()"/>
                 </li>
             </ul>
         </div>

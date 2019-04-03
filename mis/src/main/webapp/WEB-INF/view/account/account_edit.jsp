@@ -16,7 +16,18 @@
         var out_index = 0;
 
         function submitForm() {
-            $("#editForm").submit();
+            clearAllMes();
+            var accountDate = $("#accountDate").val();
+
+            var submitFlag = true;
+            if (accountDate == '') {
+                $("#b_accountDate").html('账务日期不能为空');
+                submitFlag = false;
+            }
+            if(submitFlag){
+                $("#editForm").submit();
+            }
+
         }
 
         function getAccountType(type) {
@@ -135,7 +146,8 @@
                                value="${accountApply.year}-${accountApply.month}-${accountApply.day}"/>
                     </c:otherwise>
                 </c:choose>
-                <i style="color: red;">格式为：yyyy-MM-dd 例如：2019-3-6</i></li>
+                <b>格式为:yyyy-MM-dd 例如：2019-4-1</b>
+                <b id="b_accountDate"></b>
 
             </li>
 
@@ -168,10 +180,6 @@
                 <li class="click" onclick="addOut()">
                     <span></span>
                     添加
-                </li>
-                <li class="click" onclick="">
-                    <span></span>
-                    删除
                 </li>
             </ul>
         </div>

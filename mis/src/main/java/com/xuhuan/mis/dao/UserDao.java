@@ -52,7 +52,7 @@ public interface UserDao {
     List<Map> selectByParam(Map searchMap);
 
     /**
-     * 根据登陆名称查询
+     * 根据登录名称查询
      * @param userName
      * @return
      */

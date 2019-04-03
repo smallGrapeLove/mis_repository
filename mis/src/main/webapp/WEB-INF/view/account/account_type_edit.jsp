@@ -12,7 +12,22 @@
     <%@include file="/WEB-INF/common/header.jsp" %>
     <script type="text/javascript">
         function submitForm() {
-            $("#editForm").submit();
+            clearAllMes();
+            var name=$("#name").val();
+            var type=$("#type").val();
+            var submitFlag = true;
+
+            if (name == '') {
+                $("#b_name").html('账务类型名称不能为空');
+                submitFlag = false;
+            }
+            if (type == '') {
+                $("#b_type").html('请选择出入帐类型');
+                submitFlag = false;
+            }
+            if (submitFlag) {
+                $("#editForm").submit();
+            }
         }
     </script>
 </head>
@@ -33,12 +48,13 @@
         <input type="hidden" id="id" name="id" value="${id}">
         <ul class="forminfo">
             <li>
-                <label>账务类型名称</label>
+                <label>账务类型名称<b>*</b></label>
                 <input id="name" name="name" type="text" class="dfinput" value="${accountType.name}"/>
+                <b id="b_name"></b>
             </li>
             <li>
-                <label>出入账类型</label>
-                <div class="vocation">
+                <label>出入账类型<b>*</b></label>
+                <div class="vocation" style="float: left;">
                     <select class="select1" id="type" name="type">
                         <option value="">请选择</option>
                         <c:forEach items="${accountTypeEnumList}" var="accountTypeEnum">
@@ -54,6 +70,7 @@
                         </c:forEach>
                     </select>
                 </div>
+                <b id="b_type" style="float: left;"></b>
             </li>
             <li>
                 <label>&nbsp;</label>

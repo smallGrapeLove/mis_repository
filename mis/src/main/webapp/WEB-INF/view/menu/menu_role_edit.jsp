@@ -13,17 +13,16 @@
     <script type="text/javascript">
 
         function submitForm() {
+            clearAllMes();
             var roleId = $("#roleId").val();
-            var message = "";
-            if (roleId == undefined || roleId == "") {
-                message = "请选择角色";
+            var submitFlag = true;
+            if (roleId == '') {
+                $("#b_roleId").html('请选择角色');
+                submitFlag = false;
             }
-            if (message != "") {
-                alert(message);
-            } else {
+            if (submitFlag) {
                 $("#editForm").submit();
             }
-
         }
 
         /**
@@ -152,7 +151,7 @@
         <ul class="forminfo">
             <li>
                 <label>角色</label>
-                <div class="vocation">
+                <div class="vocation" style="float: left;">
                     <select class="select1" id="roleId" name="roleId" onchange="changeRole(this)">
                         <option value="">请选择</option>
                         <c:forEach items="${roleList}" var="role">
@@ -160,6 +159,7 @@
                         </c:forEach>
                     </select>
                 </div>
+                <div style="float: left;"><b id="b_roleId"></b></div>
             </li>
 
         </ul>

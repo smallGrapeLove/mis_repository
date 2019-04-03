@@ -16,7 +16,16 @@
         });
 
         function submitForm() {
-            $("#editForm").submit();
+            clearAllMes();
+            var name = $("#name").val();
+            var submitFlag = true;
+            if (name == '') {
+                $("#b_name").html('角色名称不能为空');
+                submitFlag = false;
+            }
+            if (submitFlag) {
+                $("#editForm").submit();
+            }
         }
     </script>
 </head>
@@ -37,8 +46,9 @@
         <input type="hidden" id="id" name="id" value="${id}">
         <ul class="forminfo">
             <li>
-                <label>角色名称</label>
+                <label>角色名称<b>*</b></label>
                 <input id="name" name="name" type="text" class="dfinput" value="${role.name}"/>
+                <b id="b_name"></b>
             </li>
             <li>
                 <label>描述</label>
