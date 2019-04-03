@@ -38,6 +38,15 @@ public interface IMenuService {
     List<Map> getMenuByParentId(int parentId);
 
     /**
+     * 查询有权限的上级菜单
+     *
+     * @param roleId
+     * @param parentId
+     * @return
+     */
+    List<Map> getAuthMenuByParentId(int roleId, int parentId);
+
+    /**
      * 保存表单数据
      *
      * @param paramMap
@@ -69,9 +78,10 @@ public interface IMenuService {
     /**
      * 组装左侧导航栏数据
      *
+     * @param roleId
      * @return
      */
-    List<Map> makeLeftPageData();
+    List<Map> makeLeftPageData(int roleId);
 
     /**
      * 组装角色权限数据
@@ -84,17 +94,19 @@ public interface IMenuService {
 
     /**
      * 检查角色是否有此菜单权限
+     *
      * @param roleId
      * @param menuId
      * @return
      */
-    boolean checkRoleMenu(int roleId,int menuId);
+    boolean checkRoleMenu(int roleId, int menuId);
 
     void deleteRoleMenuByRoleId(int roleId);
 
     /**
      * 保存角色菜单权限功能表单数据
+     *
      * @param paramMap
      */
-    void saveRoleMenuFormData(Map<String,Object> paramMap);
+    void saveRoleMenuFormData(Map<String, Object> paramMap);
 }

@@ -13,8 +13,28 @@
     <script type="text/javascript">
 
         function submitForm() {
-            $("#editForm").submit();
+            clearAllMes();
+            var showName = $("#showName").val();
+            var userName = $("#userName").val();
+            var roleId = $("#roleId").val();
+            var submitFlag = true;
+            if (showName == '') {
+                $("#b_showName").html('显示名称不能为空');
+                submitFlag = false;
+            }
+            if (userName == '') {
+                $("#b_userName").html('登陆名称不能为空');
+                submitFlag = false;
+            }
+            if (roleId == '') {
+                $("#b_roleId").html('请选择角色');
+                submitFlag = false;
+            }
+            if (submitFlag) {
+                $("#editForm").submit();
+            }
         }
+
     </script>
 </head>
 <body>
@@ -34,16 +54,18 @@
         <input type="hidden" id="id" name="id" value="${id}">
         <ul class="forminfo">
             <li>
-                <label>显示名称</label>
-                <input id="showName" name="showName" type="text" class="dfinput" value="${entity.showName}"/>
+                <label>显示名称<b>*</b></label>
+                <input id="showName" name="showName" type="text" class="dfinput" value="${entity.showName}"/><b
+                    id="b_showName"></b>
             </li>
             <li>
-                <label>登录名称</label>
-                <input id="userName" name="userName" type="text" class="dfinput" value="${entity.userName}"/>
+                <label>登录名称<b>*</b></label>
+                <input id="userName" name="userName" type="text" class="dfinput" value="${entity.userName}"/><b
+                    id="b_userName"></b>
             </li>
             <li>
-                <label>角色</label>
-                <div class="vocation">
+                <label>角色<b>*</b></label>
+                <div class="vocation" style="float: left;">
                     <select class="select1" id="roleId" name="roleId">
                         <option value="">请选择</option>
                         <c:forEach items="${roleList}" var="role">
@@ -58,6 +80,7 @@
                         </c:forEach>
                     </select>
                 </div>
+                <div style="float: left;"><b id="b_roleId"></b></div>
             </li>
             <li>
                 <label>&nbsp;</label>

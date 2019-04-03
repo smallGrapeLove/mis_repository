@@ -60,6 +60,21 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     /**
+     * 查询有权限的上级菜单
+     *
+     * @param roleId
+     * @param parentId
+     * @return
+     */
+    @Override
+    public List<Map> getAuthMenuByParentId(int roleId, int parentId) {
+        Map searchMap = new HashMap();
+        searchMap.put("roleId", roleId);
+        searchMap.put("parentId", parentId);
+        return menuDao.selectAuthByParentId(searchMap);
+    }
+
+    /**
      * 保存表单数据
      *
      * @param paramMap
@@ -161,23 +176,24 @@ public class MenuServiceImpl implements IMenuService {
     /**
      * 组装左侧导航栏数据
      *
+     * @param roleId
      * @return
      */
     @Override
-    public List<Map> makeLeftPageData() {
+    public List<Map> makeLeftPageData(int roleId) {
         List<Map> leftPageDataList = new ArrayList<>();
-        List<Map> topMenuList = this.getMenuByParentId(0);
+        List<Map> topMenuList = this.getAuthMenuByParentId(roleId, 0);
         if (topMenuList != null && topMenuList.size() > 0) {
             for (Map topMenu : topMenuList) {
                 int topMenuId = NumberTool.safeToInteger(topMenu.get("id"), 0);
-                List<Map> sMenuList = this.getMenuByParentId(topMenuId);
+                List<Map> sMenuList = this.getAuthMenuByParentId(roleId, topMenuId);
                 Map topMenuMap = new HashMap();
                 List<Map> childrenMenuList = new ArrayList<>();
                 if (sMenuList != null && sMenuList.size() > 0) {
                     for (Map sMenu : sMenuList) {
                         Map sChildrenMap = new HashMap();
-                        int id = NumberTool.safeToInteger(sMenu.get("id"), 0);
-                        List<Map> tMenuList = this.getMenuByParentId(id);
+                        int sMenuId = NumberTool.safeToInteger(sMenu.get("id"), 0);
+                        List<Map> tMenuList = this.getAuthMenuByParentId(roleId, sMenuId);
 
                         sChildrenMap.put("sMenu", sMenu);
                         sChildrenMap.put("tChildrenMapList", tMenuList);

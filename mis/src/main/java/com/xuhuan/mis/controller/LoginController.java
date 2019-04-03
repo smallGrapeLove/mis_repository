@@ -3,6 +3,7 @@ package com.xuhuan.mis.controller;
 import com.xuhuan.mis.entity.User;
 import com.xuhuan.mis.service.IMenuService;
 import com.xuhuan.mis.service.IUserService;
+import com.xuhuan.mis.util.common.NumberTool;
 import com.xuhuan.mis.util.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -94,15 +95,28 @@ public class LoginController {
 
     @RequestMapping(value = "/left", method = RequestMethod.GET)
     private String toLeft(HttpServletRequest request) {
-        List<Map> leftMenuData = menuService.makeLeftPageData();
-        request.setAttribute("leftMenuData",leftMenuData);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        if(loginUser!=null){
+            int roleId = NumberTool.safeToInteger(loginUser.getRoleId(), 0);
+            if(roleId!=0){
+                List<Map> leftMenuData = menuService.makeLeftPageData(roleId);
+                request.setAttribute("leftMenuData",leftMenuData);
+            }
+        }
+
         return "framework/left";
     }
 
     @RequestMapping(value = "/top", method = RequestMethod.GET)
     private String toTop(HttpServletRequest request) {
-        List<Map> topMenuList = menuService.getMenuByParentId(0);
-        request.setAttribute("topMenuList", topMenuList);
+        User loginUser = (User) request.getSession().getAttribute("loginUser");
+        if(loginUser!=null){
+            int roleId = NumberTool.safeToInteger(loginUser.getRoleId(), 0);
+            if(roleId!=0){
+                List<Map> topMenuList = menuService.getAuthMenuByParentId(roleId,0);
+                request.setAttribute("topMenuList", topMenuList);
+            }
+        }
         return "framework/top";
     }
 

@@ -62,4 +62,12 @@
 
     </select>
 
+    <select id="selectAuthByParentId" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT t2.*,t1.roleId
+        from mis_role_menu t1
+        left join mis_menu t2 on t1.menuId=t2.id
+        where t1.roleId=#{roleId} and t2.parentId=#{parentId}
+
+    </select>
+
 </mapper>

@@ -39,4 +39,13 @@
             width: 100
         });
     });
+
+    /**
+     * 清空所有表单错误提示信息
+     */
+    function clearAllMes(){
+        $.each($("b[id^=b_]"),function (i, v) {
+            $(v).html('');
+        })
+    }
 </script>

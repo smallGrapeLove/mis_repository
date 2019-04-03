@@ -60,4 +60,11 @@ public interface MenuDao {
      */
     List<Map> selectByParentId(Integer parentId);
 
+    /**
+     * 查询有权限的角色
+     * @param searchMap
+     * @return
+     */
+    List<Map> selectAuthByParentId(Map searchMap);
+
 }
