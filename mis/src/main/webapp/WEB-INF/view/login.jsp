@@ -50,14 +50,14 @@
 </div>
 
 
-<div class="logintop">
+<%--<div class="logintop">--%>
     <%--<span>欢迎登录信息管理界面平台</span>--%>
     <%--<ul>--%>
         <%--<li><a href="#">回首页</a></li>--%>
         <%--<li><a href="#">帮助</a></li>--%>
         <%--<li><a href="#">关于</a></li>--%>
     <%--</ul>--%>
-</div>
+<%--</div>--%>
 
 <div class="loginbody">
     <span class="systemlogo"></span>
