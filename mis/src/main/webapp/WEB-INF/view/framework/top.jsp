@@ -37,7 +37,7 @@
                 <%--<img src="${pageContext.request.contextPath}/images/help.png" title="帮助" class="helpimg"/>--%>
             </span>
             <a></a></li>
-        <li><a></a></li>
+        <li><a href="${pageContext.request.contextPath}/user/password/toEdit" target="rightFrame">修改密码</a></li>
         <li><a href="${pageContext.request.contextPath}/login/logOut" target="_parent">退出</a></li>
     </ul>
 

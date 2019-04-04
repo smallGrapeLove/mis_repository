@@ -10,5 +10,5 @@ public class SystemConstant {
     /**
      * 用户的初始密码
      */
-    public static String DEFAULT_PASSWORD = "1";
+    public static String DEFAULT_PASSWORD = "mis@user";
 }
