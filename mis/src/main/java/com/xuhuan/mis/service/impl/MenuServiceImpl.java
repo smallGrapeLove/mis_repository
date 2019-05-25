@@ -9,6 +9,7 @@ import com.xuhuan.mis.util.common.NumberTool;
 import com.xuhuan.mis.util.common.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -18,6 +19,7 @@ import java.util.*;
  * @author huan.xu
  * @Time 2019-02-27 17:24
  */
+@Transactional
 @Service("IMenuService")
 public class MenuServiceImpl implements IMenuService {
 

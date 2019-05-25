@@ -40,6 +40,13 @@
         <url-pattern>/js/*</url-pattern>
         <url-pattern>/plugins/*</url-pattern>
     </servlet-mapping>
+
+    <!--session设置-->
+    <session-config>
+        <!--设置session超时时间为2分钟-->
+        <session-timeout>20</session-timeout>
+    </session-config>
+
     <!-- Spring MVC servlet -->
     <servlet>
         <servlet-name>mis</servlet-name>

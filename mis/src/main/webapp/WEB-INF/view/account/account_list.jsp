@@ -33,6 +33,11 @@
         function query() {
             $("#queryForm").submit();
         }
+
+        $(function () {
+            //datepicker回显数据
+            $("#accountDate").datepicker('setDate','${paramMap.accountDate}');
+        })
     </script>
 
 </head>
@@ -51,13 +56,7 @@
     <form id="queryForm" action="${pageContext.request.contextPath}/account/list">
         <ul class="seachform">
             <li>
-                <label>年</label><input id="year" name="year" type="text" class="scinput" value="${paramMap.year}"/>
-            </li>
-            <li>
-                <label>月</label><input id="month" name="month" type="text" class="scinput" value="${paramMap.month}"/>
-            </li>
-            <li>
-                <label>日</label><input id="day" name="day" type="text" class="scinput" value="${paramMap.day}"/>
+                <label>账务日期</label><input type="text" id="accountDate" name="accountDate" class="scinput datepicker" />
             </li>
             <li>
                 <label>&nbsp;</label>

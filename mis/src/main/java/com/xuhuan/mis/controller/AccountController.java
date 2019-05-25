@@ -7,6 +7,7 @@ import com.xuhuan.mis.service.IEnumService;
 import com.xuhuan.mis.util.common.NumberTool;
 import com.xuhuan.mis.util.common.StringUtil;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -42,9 +43,9 @@ public class AccountController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String toList(ModelMap model, @RequestParam Map<String, String> paramMap) {
-        List<Map> dataList=accountService.getAccountTableQuery(paramMap);
-        model.addAttribute("dataList",dataList);
-
+        List<Map> dataList = accountService.getAccountTableQuery(paramMap);
+        model.addAttribute("dataList", dataList);
+        model.addAttribute("paramMap", paramMap);
         return "account/account_list";
     }
 
@@ -80,7 +81,7 @@ public class AccountController {
         if (id != 0) {
             AccountApply accountApply = accountService.getAccountApplyById(id);
             if (accountApply != null) {
-                model.addAttribute("accountApply", accountApply);
+                model.addAttribute("accountApply", JSONObject.fromObject(accountApply));
                 List<Map> accountDetailList = accountService.getAccountDetailByApplyId(id);
                 if (accountDetailList != null && accountDetailList.size() > 0) {
                     List<Map> inDetailList = new ArrayList<>();
@@ -88,11 +89,11 @@ public class AccountController {
                     for (Map detailMap : accountDetailList) {
                         String type = StringUtil.safeToString(detailMap.get("type"), "");
                         if ("1".equals(type)) {
-                            detailMap.put("type","out");
+                            detailMap.put("type", "out");
                             outDetailList.add(detailMap);
 
                         } else if ("2".equals(type)) {
-                            detailMap.put("type","in");
+                            detailMap.put("type", "in");
                             inDetailList.add(detailMap);
                         }
                     }

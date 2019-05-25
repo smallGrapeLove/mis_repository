@@ -5,6 +5,7 @@ CREATE TABLE `mis_account_apply` (
 `year` varchar(4)  COMMENT '年',
 `month` varchar(2)  COMMENT '月',
 `day` varchar(2)  COMMENT '日',
+`accountDate` varchar(10)  COMMENT '账务日期',
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -35,7 +35,7 @@
             $.ajax({
                 url: "${pageContext.request.contextPath}/account/getAccountType",
                 data: {type: type},
-                type: 'post',
+                type: 'POST',
                 dataType: 'json',
                 async: false,
                 success: function (result) {
@@ -88,6 +88,12 @@
         }
 
         $(function () {
+            //回显日期
+            if('${accountApply}'!=''){
+                $("#accountDate").datepicker('setDate','${accountApply.year}-${accountApply.month}-${accountApply.day}')
+            }
+
+            //回显入账
             if ('${inDetailList}' != '') {
                 var inDetailList = $.parseJSON('${inDetailList}');
                 var selectOption = getAccountType('2');
@@ -102,6 +108,7 @@
                 });
             }
 
+            //回显出账
             if ('${outDetailList}' != '') {
                 var outDetailList = $.parseJSON('${outDetailList}');
                 var selectOption = getAccountType('1');
@@ -116,6 +123,7 @@
                 });
             }
         });
+
     </script>
 </head>
 <body>
@@ -137,20 +145,10 @@
         <ul class="forminfo">
             <li>
                 <label>账务日期</label>
-                <c:choose>
-                    <c:when test="${id == 0}">
-                        <input id="accountDate" name="accountDate" type="text" class="dfinput" />
-                    </c:when>
-                    <c:otherwise>
-                        <input id="accountDate" name="accountDate" type="text" class="dfinput"
-                               value="${accountApply.year}-${accountApply.month}-${accountApply.day}"/>
-                    </c:otherwise>
-                </c:choose>
-                <b>格式为:yyyy-MM-dd 例如：2019-4-1</b>
+                <input id="accountDate" name="accountDate" type="text" class="dfinput datepicker" />
                 <b id="b_accountDate"></b>
 
             </li>
-
         </ul>
         <div class="formtitle"><span>收入</span></div>
         <div class="tools">

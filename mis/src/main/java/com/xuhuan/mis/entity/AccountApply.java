@@ -24,6 +24,11 @@ public class AccountApply {
      */
     private String day;
 
+    /**
+     * 账务日期
+     */
+    private String accountDate;
+
     public Integer getId() {
         return id;
     }
@@ -56,6 +61,14 @@ public class AccountApply {
         this.day = day;
     }
 
+    public String getAccountDate() {
+        return accountDate;
+    }
+
+    public void setAccountDate(String accountDate) {
+        this.accountDate = accountDate;
+    }
+
     @Override
     public String toString() {
         return "AccountApply{" +
@@ -63,6 +76,7 @@ public class AccountApply {
                 ", year='" + year + '\'' +
                 ", month='" + month + '\'' +
                 ", day='" + day + '\'' +
+                ", accountDate='" + accountDate + '\'' +
                 '}';
     }
 }

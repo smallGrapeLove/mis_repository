@@ -25,6 +25,7 @@ import java.util.Set;
  * @author huan.xu
  * @Time 2019-02-27 17:24
  */
+@Transactional
 @Service("IAccountService")
 public class AccountServiceImpl implements IAccountService {
 
@@ -145,40 +146,41 @@ public class AccountServiceImpl implements IAccountService {
         String accountDate = StringUtil.safeToString(paramMap.get("accountDate"), "");
 
         AccountApply accountApply;
-        if(id==0){
-            accountApply=new AccountApply();
+        if (id == 0) {
+            accountApply = new AccountApply();
             Map dateDetail = ProjectUtil.getDateDetail(accountDate, "-");
-            accountApply.setYear(StringUtil.safeToString(dateDetail.get("year"),""));
-            accountApply.setMonth(StringUtil.safeToString(dateDetail.get("month"),""));
-            accountApply.setDay(StringUtil.safeToString(dateDetail.get("day"),""));
+            accountApply.setYear(StringUtil.safeToString(dateDetail.get("year"), ""));
+            accountApply.setMonth(StringUtil.safeToString(dateDetail.get("month"), ""));
+            accountApply.setDay(StringUtil.safeToString(dateDetail.get("day"), ""));
+            accountApply.setAccountDate(accountDate);
             accountApplyDao.save(accountApply);
-        }else{
-            accountApply=accountApplyDao.selectById(id);
+        } else {
+            accountApply = accountApplyDao.selectById(id);
             //删除之前的账务记录
             accountDetailDao.deleteByApplyId(id);
         }
         //入账
         String[] hiddenInArr = (String[]) request.getParameterMap().get("hidden_in");
-        if(hiddenInArr!=null&&hiddenInArr.length>0){
-            for(String inIndex:hiddenInArr){
-                AccountDetail detail=new AccountDetail();
+        if (hiddenInArr != null && hiddenInArr.length > 0) {
+            for (String inIndex : hiddenInArr) {
+                AccountDetail detail = new AccountDetail();
                 detail.setApplyId(accountApply.getId());
-                detail.setTypeId(NumberTool.safeToInteger(paramMap.get("type_in_"+inIndex),0));
-                detail.setPrice(NumberTool.safeToDouble(paramMap.get("price_in_"+inIndex),0d));
-                detail.setRemark(StringUtil.safeToString(paramMap.get("remark_in_"+inIndex),""));
+                detail.setTypeId(NumberTool.safeToInteger(paramMap.get("type_in_" + inIndex), 0));
+                detail.setPrice(NumberTool.safeToDouble(paramMap.get("price_in_" + inIndex), 0d));
+                detail.setRemark(StringUtil.safeToString(paramMap.get("remark_in_" + inIndex), ""));
                 accountDetailDao.save(detail);
             }
         }
 
         //出账
         String[] hiddenOutArr = (String[]) request.getParameterMap().get("hidden_out");
-        if(hiddenOutArr!=null&&hiddenOutArr.length>0){
-            for(String outIndex:hiddenOutArr){
-                AccountDetail detail=new AccountDetail();
+        if (hiddenOutArr != null && hiddenOutArr.length > 0) {
+            for (String outIndex : hiddenOutArr) {
+                AccountDetail detail = new AccountDetail();
                 detail.setApplyId(accountApply.getId());
-                detail.setTypeId(NumberTool.safeToInteger(paramMap.get("type_out_"+outIndex),0));
-                detail.setPrice(NumberTool.safeToDouble(paramMap.get("price_out_"+outIndex),0d));
-                detail.setRemark(StringUtil.safeToString(paramMap.get("remark_out_"+outIndex),""));
+                detail.setTypeId(NumberTool.safeToInteger(paramMap.get("type_out_" + outIndex), 0));
+                detail.setPrice(NumberTool.safeToDouble(paramMap.get("price_out_" + outIndex), 0d));
+                detail.setRemark(StringUtil.safeToString(paramMap.get("remark_out_" + outIndex), ""));
                 accountDetailDao.save(detail);
             }
         }

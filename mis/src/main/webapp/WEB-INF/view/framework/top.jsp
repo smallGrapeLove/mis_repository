@@ -11,6 +11,29 @@
     <title>Title</title>
     <%@include file="/WEB-INF/common/header.jsp" %>
 
+    <script type="text/javascript">
+        var int=self.setInterval("clock()",1000);
+        function clock()
+        {
+            var d=new Date();
+            var t=d.toLocaleTimeString();
+            $("#currDate").val(t);
+        }
+
+        var weekArr = new Array("日", "一", "二", "三", "四", "五", "六");
+
+        function showCurrDate() {
+            var date = new Date();
+            var currDate = date.toLocaleString();
+            var weekStr = weekArr[date.getDay()];
+            var currDateStr = "星期" + weekStr + " " + currDate;
+            $("#currDate").text(currDateStr);
+        }
+
+        $(function () {
+            window.setInterval(showCurrDate,1000);
+        })
+    </script>
 </head>
 <body style="background:url(${pageContext.request.contextPath}/images/topbg.gif) repeat-x;">
 
@@ -37,13 +60,13 @@
                 <%--<img src="${pageContext.request.contextPath}/images/help.png" title="帮助" class="helpimg"/>--%>
             </span>
             <a></a></li>
+        <li><a id="currDate"></a></li>
         <li><a href="${pageContext.request.contextPath}/user/password/toEdit" target="rightFrame">修改密码</a></li>
         <li><a href="${pageContext.request.contextPath}/login/logOut" target="_parent">退出</a></li>
     </ul>
 
     <div class="user">
         <span>${loginUser.showName}</span>
-        <%--<i>消息</i>--%>
         <%--<b>5</b>--%>
     </div>
 

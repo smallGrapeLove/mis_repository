@@ -31,7 +31,6 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handelr) throws Exception {
         logger.info("拦截到请求：[" + request.getRequestURL() + "]，handelr：[" + handelr + "]");
-        String userName = StringUtil.safeToString(request.getSession().getAttribute("userName"), "");
         User loginUser = (User) request.getSession().getAttribute("loginUser");
         if (loginUser != null) {
             return true;

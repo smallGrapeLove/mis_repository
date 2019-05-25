@@ -7,11 +7,12 @@
         <result column="year" property="year" jdbcType="VARCHAR"/>
         <result column="month" property="month" jdbcType="VARCHAR"/>
         <result column="day" property="day" jdbcType="VARCHAR"/>
+        <result column="accountDate" property="accountDate" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="save" parameterType="com.xuhuan.mis.entity.AccountApply" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO mis_account_apply (year, month, day)
-        VALUES (#{year}, #{month}, #{day})
+        INSERT INTO mis_account_apply (year, month, day,accountDate)
+        VALUES (#{year}, #{month}, #{day},#{accountDate})
     </insert>
 
     <delete id="delete" parameterType="int">
@@ -21,7 +22,7 @@
 
     <update id="update" parameterType="com.xuhuan.mis.entity.AccountApply">
         UPDATE mis_account_apply
-        SET year = #{year}, month = #{month}, day = #{day}
+        SET year = #{year}, month = #{month}, day = #{day},accountDate=#{accountDate}
         WHERE id = #{id}
     </update>
 
@@ -37,7 +38,7 @@
             t5.year,
             t5.month,
             t5.day,
-            concat(t5.year, '-', t5.month, '-', t5.day) accountDate,
+            t5.accountDate,
             t4.outSumPrice,
             t4.inSumPrice
         FROM (SELECT
@@ -55,7 +56,12 @@
                    ) t3
               GROUP BY t3.applyId) t4
             LEFT JOIN mis_account_apply t5 ON t4.applyId = t5.id
+        <where>
+            <if test="accountDate != null and accountDate != ''">
+                and t5.accountDate=#{accountDate}
+            </if>
 
+        </where>
     </select>
 
 </mapper>
